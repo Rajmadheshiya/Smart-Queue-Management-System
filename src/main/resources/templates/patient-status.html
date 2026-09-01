@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Queue Status</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef5f9;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        .card {
+            width: 450px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            color: #203a43;
+        }
+
+        .token {
+            font-size: 50px;
+            font-weight: bold;
+            color: #0d6efd;
+            margin: 20px;
+        }
+
+        .info {
+            font-size: 20px;
+            margin: 15px;
+        }
+
+        .status {
+            font-weight: bold;
+            color: #198754;
+        }
+
+        .home-btn {
+            display: block;
+            text-decoration: none;
+            background: #198754;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>🎫 Queue Status</h1>
+
+    <p>Thank you, <strong th:text="${patient.name}"></strong></p>
+
+    <div class="token">
+        Token: <span th:text="${patient.tokenNumber}"></span>
+    </div>
+
+    <div class="info">
+        Status:
+        <span class="status" th:text="${patient.status}"></span>
+    </div>
+	
+	<div class="info">
+	    👥 Patients Ahead:
+	    <strong th:text="${patientsAhead}"></strong>
+	</div>
+
+    <div class="info">
+        Estimated Waiting Time:
+        <strong th:text="${patient.estimatedTime + ' min'}"></strong>
+    </div>
+
+    <a th:href="@{/}" class="home-btn">
+        🏠 Home
+    </a>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Smart Queue Management System</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+
+        /* Dashboard Stats */
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .dashboard .card {
+            min-height: 130px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .dashboard .card h3 {
+            margin: 0 0 12px 0;
+            font-size: 17px;
+        }
+
+        .dashboard .card h2 {
+            margin: 0;
+            font-size: 38px;
+            line-height: 1;
+            color: #0d6efd;
+        }
+
+        /* Dashboard Buttons */
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .actions .btn {
+            margin: 0;
+            text-align: center;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 800px) {
+
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🏥 Smart Queue Management System</h1>
+
+    <p class="subtitle">
+        Manage patient registration and queue efficiently.
+    </p>
+
+
+    <!-- Dashboard Statistics -->
+
+    <div class="dashboard">
+
+        <div class="card">
+
+            <h3>👥 Total Patients</h3>
+
+            <h2 th:text="${totalPatients}">0</h2>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>🟡 Waiting</h3>
+
+            <h2 th:text="${waitingPatients}">0</h2>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>🟢 Completed</h3>
+
+            <h2 th:text="${completedPatients}">0</h2>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>🎫 Current Token</h3>
+
+            <h2 th:text="${currentToken}">0</h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- Dashboard Actions -->
+
+    <div class="actions">
+
+        <a th:href="@{/patient/form}" class="btn">
+            ➕ Add Patient
+        </a>
+
+        <a th:href="@{/patient/list}" class="btn">
+            📋 View Patients
+        </a>
+
+        <a th:href="@{/patient/next}" class="btn">
+            ⏭ Next Patient
+        </a>
+
+        <a th:href="@{/patient/join}" class="btn">
+            🎫 Join Queue
+        </a>
+
+        <a th:href="@{/patient/status}" class="btn">
+            🔎 Check Queue Status
+        </a>
+
+        <a th:href="@{/logout}" class="btn">
+            🔒 Logout
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

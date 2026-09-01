@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Join Queue</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+<style>
+
+.form-group {
+    text-align: left;
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #203a43;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover {
+    background: #084298;
+}
+
+.top-btn {
+    display: block;
+    text-decoration: none;
+    background: #198754;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Join Queue</h1>
+
+<p th:if="${error}"
+   th:text="${error}"
+   style="color:red; font-weight:bold; margin-bottom:15px;">
+</p>
+
+<a th:href="@{/}" class="top-btn">
+🏠 Home
+</a>
+
+<form th:action="@{/patient/join}" th:object="${patient}" method="post">
+
+    <div class="form-group">
+
+        <label>Name</label>
+
+        <input type="text"
+               th:field="*{name}"
+               placeholder="Enter your name"
+               required>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Age</label>
+
+        <input type="number"
+               th:field="*{age}"
+               placeholder="Enter your age"
+               required>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Gender</label>
+
+        <input type="text"
+               th:field="*{gender}"
+               placeholder="Enter your gender"
+               required>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Phone</label>
+
+        <input type="text"
+               th:field="*{phone}"
+               placeholder="Enter your phone number"
+               required>
+
+    </div>
+
+
+    <button type="submit">
+        🎫 Join Queue
+    </button>
+
+</form>
+
+</div>
+
+</body>
+
+</html>

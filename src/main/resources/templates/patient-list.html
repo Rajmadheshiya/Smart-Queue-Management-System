@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>All Patients - Smart Queue</title>
+
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+<style>
+
+.table-container {
+    width: 95%;
+    max-width: 1200px;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.25);
+    margin: 30px auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.header h1 {
+    color: #203a43;
+    margin: 0;
+}
+
+.top-buttons a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-left: 8px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.home-btn {
+    background: #198754;
+}
+
+.add-btn {
+    background: #0d6efd;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.search-box input {
+    padding: 11px;
+    width: 300px;
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.search-box button {
+    padding: 11px 20px;
+    border: none;
+    border-radius: 7px;
+    background: #0d6efd;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 950px;
+}
+
+th {
+    background: #203a43;
+    color: white;
+    padding: 14px 10px;
+    text-align: center;
+}
+
+td {
+    padding: 13px 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    background: #f5f8fa;
+}
+
+/* Status badges */
+
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.waiting {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.completed {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+/* Action buttons */
+
+.action-btn {
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    display: inline-block;
+    margin: 2px;
+}
+
+.edit-btn {
+    background: #e7f1ff;
+    color: #0d6efd;
+}
+
+.complete-btn {
+    background: #d1e7dd;
+    color: #198754;
+}
+
+.delete-btn {
+    background: #f8d7da;
+    color: #dc3545;
+}
+
+.done-btn {
+    color: #198754;
+    font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="table-container">
+
+    <div class="header">
+
+        <h1>👥 All Patients</h1>
+
+        <div class="top-buttons">
+
+            <a th:href="@{/}" class="home-btn">
+                🏠 Home
+            </a>
+
+            <a th:href="@{/patient/form}" class="add-btn">
+                ➕ Add Patient
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Search -->
+
+    <form th:action="@{/patient/list}" method="get" class="search-box">
+
+        <input type="text"
+               name="keyword"
+               th:value="${keyword}"
+               placeholder="🔍 Search by patient name">
+
+        <button type="submit">
+            Search
+        </button>
+
+    </form>
+
+
+    <!-- Patient Table -->
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Phone</th>
+                <th>Token</th>
+                <th>Status</th>
+                <th>Waiting Time</th>
+                <th>Actions</th>
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            <tr th:each="patient : ${patients}">
+
+                <td th:text="${patient.id}"></td>
+
+                <td th:text="${patient.name}"></td>
+
+                <td th:text="${patient.age}"></td>
+
+                <td th:text="${patient.gender}"></td>
+
+                <td th:text="${patient.phone}"></td>
+
+                <td>
+                    <strong th:text="${patient.tokenNumber}"></strong>
+                </td>
+
+
+                <!-- Status -->
+
+                <td>
+
+                    <span th:if="${patient.status == 'Waiting'}"
+                          class="status waiting">
+                        🟡 Waiting
+                    </span>
+
+                    <span th:if="${patient.status == 'Completed'}"
+                          class="status completed">
+                        🟢 Completed
+                    </span>
+
+                </td>
+
+
+                <!-- Waiting Time -->
+
+                <td th:text="${patient.status == 'Completed'
+                    ? '0 min'
+                    : (patient.tokenNumber - currentToken) * 5 + ' min'}">
+                </td>
+
+
+                <!-- Actions -->
+
+                <td>
+
+                    <!-- Edit -->
+
+                    <a th:href="@{/patient/edit/{id}(id=${patient.id})}"
+                       class="action-btn edit-btn">
+                        ✏️ Edit
+                    </a>
+
+
+                    <!-- Complete -->
+
+                    <a th:if="${patient.status == 'Waiting'}"
+                       th:href="@{/patient/complete/{id}(id=${patient.id})}"
+                       class="action-btn complete-btn"
+                       onclick="return confirm('Mark this patient as Completed?')">
+                        ✅ Complete
+                    </a>
+
+
+                    <!-- Already completed -->
+
+                    <span th:if="${patient.status == 'Completed'}"
+                          class="done-btn">
+                        ✔ Done
+                    </span>
+
+
+                    <!-- Delete -->
+
+                    <a th:href="@{/patient/delete/{id}(id=${patient.id})}"
+                       class="action-btn delete-btn"
+                       onclick="return confirm('Are you sure you want to delete this patient?')">
+                        🗑 Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

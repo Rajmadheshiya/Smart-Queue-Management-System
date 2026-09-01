@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+
+        .login-box {
+            max-width: 450px;
+            margin: 50px auto;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #203a43;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #084298;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .home-btn {
+            display: block;
+            text-decoration: none;
+            background: #198754;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .home-btn:hover {
+            background: #146c43;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container login-box">
+
+    <h1>👨‍💼 Admin Login</h1>
+
+    <p class="subtitle">
+        Login to manage the patient queue.
+    </p>
+
+    <a th:href="@{/patient/join}" class="home-btn">
+        👤 Patient - Join Queue
+    </a>
+
+    <div th:if="${param.error}" class="error">
+        ❌ Invalid username or password.
+    </div>
+
+    <div th:if="${param.logout}" class="success">
+        ✅ You have been logged out successfully.
+    </div>
+
+    <form th:action="@{/admin/login}" method="post">
+
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text"
+                   name="username"
+                   placeholder="Enter admin username"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password"
+                   name="password"
+                   placeholder="Enter admin password"
+                   required>
+        </div>
+
+        <button type="submit">
+            🔐 Login
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>
